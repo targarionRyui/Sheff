@@ -3,8 +3,8 @@ package com.example.sheff.data.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// Обрати внимание: имена полей должны ТОЧНО совпадать с колонками в Supabase,
-// либо мы используем @SerialName, чтобы указать связь.
+
+
 
 @Serializable
 data class User(
@@ -27,16 +27,18 @@ data class Recipe(
 
 @Serializable
 data class Category(
-    @SerialName("CategoryId") val id: String,
+    @SerialName("CategoryID") val id: String,
     @SerialName("CategoryName") val name: String,
     @SerialName("CategoryImage") val imageUrl: String?,
     @SerialName("CategoryDescription") val description: String?
 )
 
 @Serializable
+
+
 data class Ingredient(
-    @SerialName("IngredientID") val id: String,
-    @SerialName("IngredientName") val name: String,
+    @SerialName("IngridientID") val id: String,
+    @SerialName("IngridientName") val name: String,
     @SerialName("description") val description: String?,
     @SerialName("ImageURL") val imageUrl: String?
 )
@@ -51,7 +53,7 @@ data class Comment(
     @SerialName("CreatedAt") val createdAt: String? = null
 )
 
-// Эту модель мы будем использовать, когда будем делать JOIN таблиц (например, Рецепт + Ингредиенты)
+
 @Serializable
 data class RecipeIngredient(
     @SerialName("LinkID") val id: String,
