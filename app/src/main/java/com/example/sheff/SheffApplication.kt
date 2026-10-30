@@ -5,13 +5,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import okhttp3.OkHttpClient
 
-/**
- * Точка входа приложения.
- *
- * Здесь один раз настраиваем Coil — загрузчик картинок.
- * Викисклад (Wikimedia) отдаёт 403 на стандартный User-Agent OkHttp,
- * поэтому представляемся понятным именем приложения.
- */
+
 class SheffApplication : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {

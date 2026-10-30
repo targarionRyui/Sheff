@@ -60,8 +60,8 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                // Четыре запроса параллельно. Каждый в runCatching:
-                // падение рейтингов или ингредиентов не должно ломать весь экран.
+
+
                 val data = coroutineScope {
                     val categoriesJob = async { runCatching { recipeRepository.getCategories() } }
                     val recipesJob = async { runCatching { recipeRepository.getAllRecipes() } }
@@ -84,8 +84,8 @@ class HomeViewModel : ViewModel() {
                     .groupBy { it.recipeId }
                     .mapValues { (_, values) -> values.map { it.rating.toDouble() }.average() }
 
-                // copy, а не новый HomeUiState: иначе при повторной загрузке
-                // потерялись бы избранное и текст сообщения.
+
+
                 _uiState.update { current ->
                     current.copy(
                         isLoading = false,
@@ -109,7 +109,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    /** Подтягивает избранное пользователя. Вызывается при входе и открытии главной/каталога. */
+
     fun loadFavorites(userId: String?) {
         if (userId == null) {
             _uiState.update { it.copy(favoriteIds = emptySet()) }
@@ -123,7 +123,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    /** Сердечко на карточке рецепта. */
+
     fun toggleFavorite(recipeId: String) {
         val user = SessionManager.currentUser.value
         if (user == null) {

@@ -67,7 +67,7 @@ class ProfileViewModel : ViewModel() {
             _uiState.update { it.copy(isSubmitting = true, error = null) }
             try {
                 val user = userRepository.register(login, password)
-                // После регистрации сразу входим под новым аккаунтом.
+
                 SessionManager.signIn(user)
                 _uiState.update { it.copy(isSubmitting = false, error = null) }
             } catch (e: IllegalStateException) {
@@ -87,12 +87,12 @@ class ProfileViewModel : ViewModel() {
         _uiState.value = ProfileUiState()
     }
 
-    /** Убирает текст ошибки, например при переключении «вход / регистрация». */
+
     fun clearError() {
         _uiState.update { it.copy(error = null) }
     }
 
-    /** Загружает избранные рецепты. Вызывается при входе и при открытии вкладки. */
+
     fun loadFavorites(userId: String?) {
         if (userId == null) {
             _uiState.update { it.copy(favorites = emptyList(), isLoading = false) }
@@ -106,7 +106,7 @@ class ProfileViewModel : ViewModel() {
                 val recipes = if (favoriteIds.isEmpty()) {
                     emptyList()
                 } else {
-                    // Рецептов мало, поэтому проще загрузить все и отфильтровать по id.
+
                     recipeRepository.getAllRecipes().filter { it.id in favoriteIds }
                 }
                 _uiState.update { it.copy(isLoading = false, favorites = recipes) }

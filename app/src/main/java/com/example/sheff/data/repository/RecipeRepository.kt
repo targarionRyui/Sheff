@@ -63,11 +63,7 @@ class RecipeRepository {
             .decodeList<RecipeIngredient>()
     }
 
-    /**
-     * Сохраняет оценку пользователя.
-     * upsert = "вставь, а если такая пара RecipeID+UserID уже есть — обнови".
-     * Поэтому один пользователь всегда имеет ровно одну оценку на рецепт.
-     */
+
     suspend fun saveRating(recipeId: String, userId: String, rating: Int) {
         SupabaseClient.client.postgrest["RecipeRatings"].upsert(
             value = RecipeRating(recipeId = recipeId, userId = userId, rating = rating),

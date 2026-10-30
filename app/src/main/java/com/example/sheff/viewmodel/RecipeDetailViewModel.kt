@@ -20,10 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Одна строка состава: "Мука — 200 г".
- * Количество храним числом, а красивую подпись собирает экран (Format.kt).
- */
+
 data class RecipeIngredientItem(
     val name: String,
     val amount: Float?,
@@ -39,16 +36,16 @@ data class RecipeDetailUiState(
     val averageRating: Double? = null,
     val ratingsCount: Int = 0,
     val comments: List<Comment> = emptyList(),
-    // Данные текущего пользователя
+
     val isFavorite: Boolean = false,
     val myRating: Int? = null,
     val commentDraft: String = "",
-    // Текст для всплывающей подсказки (Snackbar)
+
     val message: String? = null
 )
 
-// Результаты пяти запросов. Каждый в своём Result,
-// чтобы пустые оценки или комментарии не ломали весь экран.
+
+
 private data class RecipeDetailData(
     val recipe: Result<Recipe>,
     val links: Result<List<RecipeIngredient>>,
@@ -70,10 +67,7 @@ class RecipeDetailViewModel : ViewModel() {
     private var recipeId: String = ""
     private var currentUser: User? = null
 
-    /**
-     * user приходит из экрана: null — гость, иначе вошедший пользователь.
-     * При входе/выходе экран вызовет load заново, и избранное с оценкой обновятся.
-     */
+
     fun load(recipeId: String, user: User?) {
         if (recipeId.isBlank()) return
 
@@ -102,7 +96,7 @@ class RecipeDetailViewModel : ViewModel() {
                 val recipeResult = data.recipe
                 val recipe = recipeResult.getOrNull()
 
-                // В связях лежат только id ингредиентов, поэтому подставляем названия из справочника.
+
                 val ingredientsById = data.ingredients.getOrDefault(emptyList()).associateBy { it.id }
                 val ingredientItems = data.links.getOrDefault(emptyList()).mapNotNull { link ->
                     val ingredient = ingredientsById[link.ingredientId] ?: return@mapNotNull null
@@ -118,7 +112,7 @@ class RecipeDetailViewModel : ViewModel() {
                 val comments = data.comments.getOrDefault(emptyList())
                     .sortedByDescending { it.createdAt ?: "" }
 
-                // Избранное и «моя оценка» есть только у вошедшего пользователя.
+
                 var isFavorite = false
                 var myRating: Int? = null
                 if (user != null) {
@@ -155,7 +149,7 @@ class RecipeDetailViewModel : ViewModel() {
         }
     }
 
-    /** Сердечко: добавить или убрать рецепт из избранного. */
+
     fun toggleFavorite() {
         val user = currentUser ?: return showMessage("Войдите в аккаунт, чтобы сохранять рецепты")
 
@@ -174,14 +168,14 @@ class RecipeDetailViewModel : ViewModel() {
         }
     }
 
-    /** Поставить оценку 1..5. */
+
     fun rate(value: Int) {
         val user = currentUser ?: return showMessage("Войдите в аккаунт, чтобы оценить рецепт")
 
         viewModelScope.launch {
             try {
                 recipeRepository.saveRating(recipeId, user.id, value)
-                // Перечитываем оценки, чтобы средний балл стал правильным.
+
                 val ratings = recipeRepository.getRatingsForRecipe(recipeId)
                 _uiState.update {
                     it.copy(

@@ -64,8 +64,8 @@ class CatalogViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(CatalogUiState())
     val uiState: StateFlow<CatalogUiState> = _uiState.asStateFlow()
 
-    // Полный список рецептов и связей "рецепт -> ингредиенты".
-    // Фильтрация идёт по ним, а в state.recipes лежит уже отфильтрованный результат.
+
+
     private var allRecipes: List<RecipeCardItem> = emptyList()
     private var linksByRecipe: Map<String, Set<String>> = emptyMap()
 
@@ -135,9 +135,7 @@ class CatalogViewModel : ViewModel() {
         recompute()
     }
 
-    /**
-     * Пересчитывает видимый список. Вызывается после любого изменения фильтров/поиска.
-     */
+
     private fun recompute() {
         val state = _uiState.value
         val filters = state.filters

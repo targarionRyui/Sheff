@@ -4,10 +4,7 @@ import com.example.sheff.data.models.Favorite
 import com.example.sheff.data.remote.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
 
-/**
- * Избранные рецепты пользователя (таблица UserFavorities).
- * Храним только пару "пользователь + рецепт".
- */
+
 class FavoriteRepository {
 
     suspend fun getFavoriteRecipeIds(userId: String): List<String> {

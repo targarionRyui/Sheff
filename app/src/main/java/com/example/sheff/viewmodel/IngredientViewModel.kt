@@ -32,10 +32,7 @@ class IngredientViewModel : ViewModel() {
     private var loadedId: String? = null
     private var lastId: String = ""
 
-    /**
-     * Загрузка по id. Вызывается из экрана через LaunchedEffect,
-     * поэтому ViewModel не нужен конструктор с аргументами и фабрика.
-     */
+
     fun load(ingredientId: String) {
         if (loadedId == ingredientId) return
         loadedId = ingredientId
